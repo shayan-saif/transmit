@@ -5,6 +5,6 @@ export interface Message {
   id?: string;
   user?: User;
   text: string;
-  metadata?: EVENT,
+  metadata?: EVENT;
   timestamp?: string;
 }

@@ -15,14 +15,18 @@ export function onConnection(socket: Socket): void {
   const user: User = generateUser(socket);
   addConnection(user);
 
-  const message: Message = generateMessage(`joined the chat.`, socket);
+  const message: Message = generateMessage(
+    `joined the chat.`,
+    EVENT.userJoin,
+    socket
+  );
   console.log(message);
 
-  socket.broadcast.emit(EVENT.connection, message);
+  socket.broadcast.emit(EVENT.userJoin, message);
 }
 
 export function onMessage(text: string, socket: Socket): void {
-  const message: Message = generateMessage(text, socket);
+  const message: Message = generateMessage(text, EVENT.message, socket);
 
   console.log(message);
   addMessage(message);
@@ -32,7 +36,11 @@ export function onMessage(text: string, socket: Socket): void {
 
 export function onDisconnect(socket: Socket): void {
   const user: User | undefined = getConnection(socket.id);
-  const message: Message = generateMessage("left the chat.", socket);
+  const message: Message = generateMessage(
+    "left the chat.",
+    EVENT.userLeft,
+    socket
+  );
 
   console.log(message);
   removeConnection(socket.id);

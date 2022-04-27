@@ -1,0 +1,18 @@
+.layout {
+  display: grid;
+  gap: 1rem;
+  height: calc(100vh - 32px);
+  grid-template-rows: 1fr auto;
+}
+
+.chat-display {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr auto;
+}
+
+.chat-controls {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr auto;
+}
