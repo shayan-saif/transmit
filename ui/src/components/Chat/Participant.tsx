@@ -10,7 +10,7 @@ type Props = {
 export default function Participant(props: Props) {
   const { name, currentUser } = props;
 
-  function getInitials(): string {
+  function getInitials(): string[] {
     return name.split("-").map(name => name[0]);
   }
 
@@ -34,9 +34,9 @@ export default function Participant(props: Props) {
 
   return (
     <div
-    className="participant"
+      className="participant"
       style={{
-        backgroundColor: currentUser && grey[300],
+        backgroundColor: currentUser && grey[200],
       }}
     >
       <Avatar sx={{ backgroundColor: getRandomColor() }}>
