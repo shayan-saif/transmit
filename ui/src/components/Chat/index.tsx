@@ -10,14 +10,14 @@ export default function Chat({}: Props) {
   return (
     <div className="layout">
       <div className="chat-display">
-        <div style={{ padding: "1rem", backgroundColor: "moccasin" }}>
+        <div className="layout-block">
           <Messages />
         </div>
-        <div style={{ padding: "1rem", backgroundColor: "moccasin" }}>
+        <div className="layout-block">
           <Participants />
         </div>
       </div>
-      <div style={{ padding: "1rem", backgroundColor: "moccasin" }}>
+      <div className="layout-block">
         <Controls />
       </div>
     </div>

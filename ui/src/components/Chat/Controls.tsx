@@ -12,12 +12,16 @@ export default function Controls({}: Props) {
     initialValues: {
       message: "",
     },
+    validationRules: {
+      message: value => value.trim() !== "",
+    },
   });
 
   const socket = useContext(SocketContext);
 
   function sendMessage(values: { message: string }) {
     socket.emit(EVENT.message, values.message);
+    form.reset();
   }
 
   return (

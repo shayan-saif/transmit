@@ -1,6 +1,7 @@
 import { SocketContext } from "@/contexts/socket";
 import { getMessages } from "@/http";
 import { EVENT } from "@/types/events";
+import { Message as IMessage } from "@/types/message";
 import React, { useContext, useEffect, useState } from "react";
 import Message from "./Message";
 
@@ -18,19 +19,33 @@ export default function Messages({}: Props) {
   useEffect(() => {
     updateMessages();
 
+    socket.on(EVENT.userJoin, message => {
+      setMessages(prevMessages => [...prevMessages, message]);
+    });
+
     socket.on(EVENT.message, message => {
       setMessages(prevMessages => [...prevMessages, message]);
     });
 
+    socket.on(EVENT.userLeft, message => {
+      setMessages(prevMessages => [...prevMessages, message]);
+    });
+
     return () => {
+      socket.off(EVENT.userJoin);
       socket.off(EVENT.message);
+      socket.off(EVENT.userLeft);
     };
   }, []);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-      {messages.map(message => (
-        <Message key={message.id} message={message} />
+    <div className="messages">
+      {messages.map((message: IMessage) => (
+        <Message
+          key={message.id}
+          message={message}
+          currentUser={message.user.id === socket.id}
+        />
       ))}
     </div>
   );

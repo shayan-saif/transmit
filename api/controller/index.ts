@@ -21,6 +21,7 @@ export function onConnection(socket: Socket): void {
     socket
   );
   console.log(message);
+  addMessage(message);
 
   socket.broadcast.emit(EVENT.userJoin, message);
 }
@@ -43,6 +44,8 @@ export function onDisconnect(socket: Socket): void {
   );
 
   console.log(message);
+  addMessage(message);
+
   removeConnection(socket.id);
 
   io.emit(EVENT.userLeft, message);

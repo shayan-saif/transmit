@@ -1,11 +1,17 @@
-import React, { useContext } from "react";
-import { SocketContext } from "@/contexts/socket";
+import React from "react";
 import { EVENT } from "@/types/events";
 import { Divider, Paper, Typography } from "@mui/material";
+import { blue } from "@mui/material/colors";
+import { Message as IMessage } from "@/types/message";
 
-export default function Message({ message }) {
-  const { user, text, metadata } = message;
-  const { id: socketId } = useContext(SocketContext);
+type Props = {
+  message: IMessage;
+  currentUser: boolean;
+};
+
+export default function Message(props: Props) {
+  const { user, text, metadata } = props.message;
+  const { currentUser } = props;
 
   switch (metadata) {
     case EVENT.userJoin:
@@ -18,22 +24,25 @@ export default function Message({ message }) {
     case EVENT.message:
       return (
         <div
+          className="message"
           style={{
-            display: "flex",
-            justifyContent: user.id === socketId ? "end" : "start",
+            justifyContent: currentUser ? "end" : "start",
           }}
         >
           <Paper
             sx={{
               maxWidth: "35%",
               padding: "0.5rem 1rem",
+              backgroundColor: currentUser ? blue[700] : "white",
             }}
             elevation={2}
           >
-            <Typography variant="h6" mb={1}>
+            <Typography variant="h6" mb={1} color={currentUser && "white"}>
               {user.name}
             </Typography>
-            <Typography variant="body1">{text}</Typography>
+            <Typography variant="body1" color={currentUser && "white"}>
+              {text}
+            </Typography>
           </Paper>
         </div>
       );
@@ -46,6 +55,6 @@ export default function Message({ message }) {
       );
 
     default:
-      <>Error!</>;
+      <Typography>Error loading message ...</Typography>;
   }
 }
