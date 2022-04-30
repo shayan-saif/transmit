@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 const server = http.createServer(app);
 
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "public")));
 
 export const io = new Server(server, {
   cors: { origin: ["http://localhost:3000"] },
@@ -31,7 +31,7 @@ io.on(EVENT.connection, socket => {
 });
 
 app.get("/", (req, res) => {
-  return res.sendFile("index.html");
+  return res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.get("/participants", (req, res) => {
